@@ -1,0 +1,22 @@
+{
+  "name": "brenden-sam-ibrahim-portfolio-project",
+  "version": "1.0.0",
+  "description": "Portfolio project: A spinoff of the whack a mole game",
+  "source": "index.html",
+  "scripts": {
+    "start": "parcel --open",
+    "build": "parcel build"
+  },
+  "keywords": [],
+  "author": "Brenden O'Shea, Sam Golshan, Ibrahim Karim",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.11.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.2.1",
+    "bootstrap": "^4.5.2",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
+  }
+}
