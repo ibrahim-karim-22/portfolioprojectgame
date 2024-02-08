@@ -22,6 +22,7 @@ function decreaseScore(event) {
 }
 
 function restartScoreboard() {
+    alert('Your total score is ' + scoreDisplay.textContent + ' points. Thank you for playing!'); //alert showing point total when game ends
     scoreDisplay.textContent = '0';
     gameStarted = false;
 }
@@ -48,7 +49,7 @@ let isGameStarted = false;
 function endGame() {
     clearInterval(timer);
     timerSpan.innerHTML = 60; //changed to 60 instead of zero, so that it would display 60 before start game.
-
+    
     isGameStarted = false; // game ended, ready for new start
 }
 
