@@ -32,5 +32,4 @@ function scoreStart () {
 imgElements.forEach((img) => {img.addEventListener('click', incrementScore);});
 document.querySelector('#endGameBtn').addEventListener('click', restartScoreboard);
 document.querySelector('#startGameBtn').addEventListener('click', scoreStart)
-
 gameContainer.addEventListener('click', decreaseScore);
