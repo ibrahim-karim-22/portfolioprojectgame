@@ -6,97 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Whack a Mole</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      background-color: beige;
-      height: 100vh;
-      margin: 0;
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    }
-
-    .container {
-      margin-top: 25px;
-    }
-
-    .game-container {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      margin-top: 20px; 
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    #grid-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 0px;
-      margin-top: 5px;
-    }
-
-    .grid-button {
-      width: 115px;
-      height: 115px;
-      opacity: 1;
-      cursor: pointer;
-    }
-
-    .grid-button img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .timer-container {
-      background-color: white;
-      border-color: black;
-      border-style: solid;
-      width: 90px;
-      margin-right: 10px;
-      margin-top: 5px;
-      padding-left: 10px;
-    }
-
-    .score-container {
-      background-color: white;
-      border-color: black;
-      border-style: solid;
-      width: 90px;
-      margin-left: 10px;
-      margin-top: 5px;
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-
-    .timer {
-      font-size: 25px;
-    }
-
-    #timer {
-      font-size: 20px;
-    }
-
-    .score {
-      font-size: 25px;
-    }
-
-    #score {
-      font-size: 20px;
-    }
-
-  </style>
+  <link rel="icon" href="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b">
+  <link rel="stylesheet" href="css/mole.css">
 </head>
 
 <body>
 
   <div class="container text-center">
     <h1>Whack a Mole!</h1>
+    <div id="instructions-container">
+      <h3><u><b>Instructions</b></u>: Earn points by clicking as many moles as you can in one minute! Lose points if you click the wrong box.</h3>
+    </div>
     <div id="buttons-container">
       <button class="btn btn-primary" id="startGameBtn">Start Game</button>
       <button class="btn btn-danger ml-2" id="endGameBtn">End Game</button>
@@ -109,16 +29,26 @@
       <span id="timer">60</span>
     </div>
     <div id="grid-container">
-      <!--<button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>-->
-      <button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>
-      <button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>
-      <button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>
-      <button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>
-      <button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>
-      <button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>
-      <button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>
-      <button class="grid-button normalPoints"><img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"></button>
-    </div>
+      <!-- Removed images from grid buttons since they will be added using moleUp() -->
+      <button class="grid-button normalPoints 0"></button>
+      <button class="grid-button normalPoints 1"></button>
+      <button class="grid-button normalPoints 2"></button>
+      <button class="grid-button normalPoints 3"></button>
+      <button class="grid-button normalPoints 4"></button>
+      <button class="grid-button normalPoints 5"></button>
+      <button class="grid-button normalPoints 6"></button>
+      <button class="grid-button normalPoints 7"></button>
+      <button class="grid-button normalPoints 8"></button>
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->        
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->
+      <!-- <img src="https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b" alt="Mole 1"> -->
+        </div>
     <div class="score-container">
       <h2 class="score">Score: </h2>
       <span id="score">0</span>
