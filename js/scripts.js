@@ -78,7 +78,7 @@ function startGame() {
     timer = setInterval(updateTimer, 1000);
     
     isGameStarted = true;//indicates the game has started 
-    
+            
     //if we call updateTimer here again it will cause timer to decrease by 1 second immedieatly upon starting giving player 59 seconds because timelLeft - 1.
     //updateTimer();
 }
