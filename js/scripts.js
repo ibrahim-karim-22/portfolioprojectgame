@@ -64,6 +64,11 @@ function endGame() {
     timerSpan.innerHTML = 60; //changed to 60 instead of zero, so that it would display 60 before start game.
     
     isGameStarted = false; // game ended, ready for new start
+    if (GRID_ARRAY[pick].firstChild) {
+        while (GRID_ARRAY[pick].firstChild) {
+            GRID_ARRAY[pick].removeChild(GRID_ARRAY[pick].firstChild)
+        }
+    }
     pick = 10; // Reset the pick to a number outside the range of the Array
 }
 
