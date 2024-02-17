@@ -155,6 +155,7 @@ function updateTimer() {
 // New functions here
 //mole appear
 function moleUp() {
+  clearMoleTimeout();
   mole = document.createElement("img"); // Creates new image element inside the DOM
   pick = Math.floor(Math.random() * GRID_ARRAY.length); // Assigns pick variable to a random number to be indexed inside the Array
   GRID_ARRAY[pick].appendChild(mole); // Appends the newly created image element (mole) as a child of a randomly chosen (using the pick variable) grid-button
