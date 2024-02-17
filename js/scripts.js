@@ -49,12 +49,18 @@ function incrementScore() {
   scoreDisplay.textContent = currentScore + 10;
   clearflashRed();
   scoreCon.style.borderColor = 'green';
-  scoreDisplay.style.color = 'green';
-  scoreTitle.style.color = 'green';
+  scoreCon.style.backgroundColor = 'darkgreen';
+  scoreDisplay.style.color = 'yellow';
+  scoreDisplay.style.fontSize = '35px';
+  scoreTitle.style.color = 'yellow';
+  scoreTitle.style.marginBottom = '0';
   setTimeout(()=> {
     scoreCon.style.borderColor = 'black';
+    scoreCon.style.backgroundColor = 'white';
     scoreDisplay.style.color = 'black';
-    scoreTitle.style.color = 'black';    
+    scoreDisplay.style.fontSize = '25px';
+    scoreTitle.style.color = 'black';
+    scoreTitle.style.marginBottom = '8px';
   }, 500);
 }
 let flashRed;
