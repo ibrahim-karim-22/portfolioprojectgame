@@ -21,6 +21,7 @@ const GRID_ARRAY = [
 console.log(GRID_ARRAY);
 // Declared all the grid-button variables for the buttons, and then put them inside of an array
 const clickForPoints = document.querySelectorAll(".normalPoints");
+const scoreTitle = document.querySelector(".score");
 const scoreDisplay = document.querySelector("#score");
 const gameContainer = document.querySelector(".game-container");
 const btnsContainer = document.querySelector("#buttons-container");
@@ -46,7 +47,17 @@ function incrementScore() {
   }
   const currentScore = parseInt(scoreDisplay.textContent, 10);
   scoreDisplay.textContent = currentScore + 10;
+  clearflashRed();
+  scoreCon.style.borderColor = 'green';
+  scoreDisplay.style.color = 'green';
+  scoreTitle.style.color = 'green';
+  setTimeout(()=> {
+    scoreCon.style.borderColor = 'black';
+    scoreDisplay.style.color = 'black';
+    scoreTitle.style.color = 'black';    
+  }, 500);
 }
+let flashRed;
 function decreaseScore(event) {
   if (!gameStarted) {
     return;
@@ -54,6 +65,18 @@ function decreaseScore(event) {
   const currentScore = parseInt(scoreDisplay.textContent, 10);
   if (currentScore > 0) {
     scoreDisplay.textContent = currentScore - 5;
+    if (scoreCon.style.borderColor !== 'green') {
+      flashRed = setTimeout(()=> {
+      scoreCon.style.borderColor = 'red';
+      scoreDisplay.style.color = 'red';
+      scoreTitle.style.color = 'red';
+      setTimeout(()=> {
+        scoreCon.style.borderColor = 'black';
+        scoreDisplay.style.color = 'black';
+        scoreTitle.style.color = 'black';    
+      }, 500);
+      }, 0);
+    }
   }
   event.stopPropagation(); //this built in function stops the click form propagating further.
 }
@@ -171,6 +194,7 @@ function moleUp() {
     moleDown(mole);
   });
   mole.addEventListener("click", incrementScore);
+  mole.addEventListener("click", clearflashRed);
   // Starts timer for mole to disappear after 2 seconds
   setTimeout(() => {
     moleDown();
@@ -211,4 +235,7 @@ function newMole() {
 // Function to clear the timeout if needed.
 function clearMoleTimeout() {
   clearTimeout(moleTimeout);
+}
+function clearflashRed() {
+  clearTimeout(flashRed);
 }
