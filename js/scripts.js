@@ -204,7 +204,7 @@ function moleUp() {
   // Starts timer for mole to disappear after 2 seconds
   setTimeout(() => {
     moleDown();
-  }, 888);
+  }, 499);
 }
 //mole dissapear
 // Removes mole which was created
