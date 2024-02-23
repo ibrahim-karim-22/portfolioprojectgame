@@ -73,14 +73,18 @@ function decreaseScore(event) {
     scoreDisplay.textContent = currentScore - 5;
     if (scoreCon.style.borderColor !== 'green') {
       flashRed = setTimeout(()=> {
-      scoreCon.style.borderColor = 'red';
-      scoreDisplay.style.color = 'red';
-      scoreTitle.style.color = 'red';
-      setTimeout(()=> {
-        scoreCon.style.borderColor = 'black';
-        scoreDisplay.style.color = 'black';
-        scoreTitle.style.color = 'black';    
-      }, 500);
+        scoreCon.style.borderColor = 'red';
+        scoreDisplay.style.color = 'red';
+        scoreDisplay.style.fontSize = '35px';
+        scoreTitle.style.color = 'red';
+        scoreTitle.style.marginBottom = '0';
+        setTimeout(()=> {
+            scoreCon.style.borderColor = 'black';
+            scoreDisplay.style.color = 'black';
+            scoreDisplay.style.fontSize = '25px';
+            scoreTitle.style.color = 'black';
+            scoreTitle.style.marginBottom = '8px';
+        }, 500);
       }, 0);
     }
   }
