@@ -79,16 +79,6 @@ function decreaseScore(event) {
   if (currentScore > 0) {
     scoreDisplay.textContent = currentScore - 5;
     if (scoreCon.style.borderColor !== 'green') {
-<<<<<<< HEAD
-      flashRed = setTimeout(() => {
-        scoreCon.style.borderColor = 'red';
-        scoreDisplay.style.color = 'red';
-        scoreTitle.style.color = 'red';
-        setTimeout(() => {
-          scoreCon.style.borderColor = 'black';
-          scoreDisplay.style.color = 'black';
-          scoreTitle.style.color = 'black';
-
       flashRed = setTimeout(()=> {
         scoreCon.style.borderColor = 'red';
         scoreDisplay.style.color = 'red';
@@ -101,13 +91,13 @@ function decreaseScore(event) {
             scoreDisplay.style.fontSize = '25px';
             scoreTitle.style.color = 'black';
             scoreTitle.style.marginBottom = '8px';
->>>>>>> 452a06630bd8e72ef83eb2d1c455421dda727f12
         }, 500);
       }, 0);
     }
   }
   event.stopPropagation(); //this built in function stops the click form propagating further.
 }
+
 function restartScoreboard() {
   alert(
     "Your total score is " +
@@ -167,8 +157,6 @@ function endGame() {
       GRID_ARRAY[pick].removeChild(GRID_ARRAY[pick].firstChild);
     }
   }
-<<<<<<< HEAD
-
   // Remove any remaining extra mole
   if (GRID_ARRAY[pickExtra]?.firstChild) {
     while (GRID_ARRAY[pickExtra].firstChild) {
@@ -183,13 +171,12 @@ function endGame() {
   // Clear the timeouts for both regular mole and extra mole
   clearMoleTimeout();
   clearMoleExtraTimeout();
-=======
+
   pick = 10; // Reset the pick to a number outside the range of the Array
   timerCon.style.color = "black";
   timerCon.style.borderColor = "black";
   timerDisplay.style.fontSize = '25px';
   timerTitle.style.marginBottom = '8px';
->>>>>>> 452a06630bd8e72ef83eb2d1c455421dda727f12
 }
 function startGame() {
   if (isGameStarted) {
@@ -304,7 +291,6 @@ function clearMoleTimeout() {
 function clearflashRed() {
   clearTimeout(flashRed);
 }
-<<<<<<< HEAD
 
 // EXTRA POINTS MOLE///////////////////////////////////////
 
@@ -363,5 +349,4 @@ function newMoleExtra() {
     moleExtraUp();
   }, 2000);
 }
-=======
->>>>>>> 452a06630bd8e72ef83eb2d1c455421dda727f12
+  
