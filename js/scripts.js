@@ -23,13 +23,15 @@ console.log(GRID_ARRAY);
 const clickForPoints = document.querySelectorAll(".normalPoints");
 const scoreTitle = document.querySelector(".score");
 const scoreDisplay = document.querySelector("#score");
+const scoreCon = document.querySelector(".score-container");
 const gameContainer = document.querySelector(".game-container");
 const btnsContainer = document.querySelector("#buttons-container");
 const theGameTitle = document.querySelector("#gameTitle");
 const instructions = document.querySelector("#instructions-container");
 const backBtn = document.querySelector("#goBackBtnContainer");
 const timerCon = document.querySelector(".timer-container");
-const scoreCon = document.querySelector(".score-container");
+const timerTitle = document.querySelector(".timer");
+const timerDisplay = document.querySelector("#timer");
 const theGameOverImage = document.querySelector(".gameOverImage");
 const theGameOverMessage = document.querySelector("#gameOverMessage");
 
@@ -77,6 +79,7 @@ function decreaseScore(event) {
   if (currentScore > 0) {
     scoreDisplay.textContent = currentScore - 5;
     if (scoreCon.style.borderColor !== 'green') {
+<<<<<<< HEAD
       flashRed = setTimeout(() => {
         scoreCon.style.borderColor = 'red';
         scoreDisplay.style.color = 'red';
@@ -85,6 +88,20 @@ function decreaseScore(event) {
           scoreCon.style.borderColor = 'black';
           scoreDisplay.style.color = 'black';
           scoreTitle.style.color = 'black';
+
+      flashRed = setTimeout(()=> {
+        scoreCon.style.borderColor = 'red';
+        scoreDisplay.style.color = 'red';
+        scoreDisplay.style.fontSize = '35px';
+        scoreTitle.style.color = 'red';
+        scoreTitle.style.marginBottom = '0';
+        setTimeout(()=> {
+            scoreCon.style.borderColor = 'black';
+            scoreDisplay.style.color = 'black';
+            scoreDisplay.style.fontSize = '25px';
+            scoreTitle.style.color = 'black';
+            scoreTitle.style.marginBottom = '8px';
+>>>>>>> 452a06630bd8e72ef83eb2d1c455421dda727f12
         }, 500);
       }, 0);
     }
@@ -150,6 +167,7 @@ function endGame() {
       GRID_ARRAY[pick].removeChild(GRID_ARRAY[pick].firstChild);
     }
   }
+<<<<<<< HEAD
 
   // Remove any remaining extra mole
   if (GRID_ARRAY[pickExtra]?.firstChild) {
@@ -165,6 +183,13 @@ function endGame() {
   // Clear the timeouts for both regular mole and extra mole
   clearMoleTimeout();
   clearMoleExtraTimeout();
+=======
+  pick = 10; // Reset the pick to a number outside the range of the Array
+  timerCon.style.color = "black";
+  timerCon.style.borderColor = "black";
+  timerDisplay.style.fontSize = '25px';
+  timerTitle.style.marginBottom = '8px';
+>>>>>>> 452a06630bd8e72ef83eb2d1c455421dda727f12
 }
 function startGame() {
   if (isGameStarted) {
@@ -206,6 +231,12 @@ function updateTimer() {
       "You've earned " + scoreDisplay.textContent + " points";
     //no need to reset the timerSpan here as endGame already sets it to 60. this was why it was glitching and not stopping with end game when start is pressed twice i think.
     //timerSpan.innerHTML = 60;
+  }
+  if (timeLeft < 11 && timeLeft > 0) {
+    timerCon.style.color = "red";
+    timerCon.style.borderColor = "red";
+    timerDisplay.style.fontSize = '35px';
+    timerTitle.style.marginBottom = '0';
   }
 }
 
@@ -273,6 +304,7 @@ function clearMoleTimeout() {
 function clearflashRed() {
   clearTimeout(flashRed);
 }
+<<<<<<< HEAD
 
 // EXTRA POINTS MOLE///////////////////////////////////////
 
@@ -331,3 +363,5 @@ function newMoleExtra() {
     moleExtraUp();
   }, 2000);
 }
+=======
+>>>>>>> 452a06630bd8e72ef83eb2d1c455421dda727f12
