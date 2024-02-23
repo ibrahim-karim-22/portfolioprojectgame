@@ -23,13 +23,15 @@ console.log(GRID_ARRAY);
 const clickForPoints = document.querySelectorAll(".normalPoints");
 const scoreTitle = document.querySelector(".score");
 const scoreDisplay = document.querySelector("#score");
+const scoreCon = document.querySelector(".score-container");
 const gameContainer = document.querySelector(".game-container");
 const btnsContainer = document.querySelector("#buttons-container");
 const theGameTitle = document.querySelector("#gameTitle");
 const instructions = document.querySelector("#instructions-container");
 const backBtn = document.querySelector("#goBackBtnContainer");
 const timerCon = document.querySelector(".timer-container");
-const scoreCon = document.querySelector(".score-container");
+const timerTitle = document.querySelector(".timer");
+const timerDisplay = document.querySelector("#timer");
 const theGameOverImage = document.querySelector(".gameOverImage");
 const theGameOverMessage = document.querySelector("#gameOverMessage");
 
@@ -144,6 +146,10 @@ function endGame() {
     }
   }
   pick = 10; // Reset the pick to a number outside the range of the Array
+  timerCon.style.color = "black";
+  timerCon.style.borderColor = "black";
+  timerDisplay.style.fontSize = '25px';
+  timerTitle.style.marginBottom = '8px';
 }
 function startGame() {
   if (isGameStarted) {
@@ -183,6 +189,12 @@ function updateTimer() {
       "You've earned " + scoreDisplay.textContent + " points";
     //no need to reset the timerSpan here as endGame already sets it to 60. this was why it was glitching and not stopping with end game when start is pressed twice i think.
     //timerSpan.innerHTML = 60;
+  }
+  if (timeLeft < 11 && timeLeft > 0) {
+    timerCon.style.color = "red";
+    timerCon.style.borderColor = "red";
+    timerDisplay.style.fontSize = '35px';
+    timerTitle.style.marginBottom = '0';
   }
 }
 // New functions here
