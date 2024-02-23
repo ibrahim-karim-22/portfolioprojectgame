@@ -34,19 +34,24 @@ const theGameOverImage = document.querySelector(".gameOverImage");
 const theGameOverMessage = document.querySelector("#gameOverMessage");
 
 let pick; // Declared global variable for random number generator
+let pickExtra;
 let mole;
+let moleExtra;
+let moleTimeout;
+let moleExtraTimeout;
+let moleExtraCount = 0;
 let gameStarted = false;
 
 backBtn.style.display = "none";
 theGameOverImage.style.display = "none";
 theGameOverMessage.style.display = "none";
 
-function incrementScore() {
+function incrementScore(points) {
   if (!gameStarted) {
     return;
   }
   const currentScore = parseInt(scoreDisplay.textContent, 10);
-  scoreDisplay.textContent = currentScore + 10;
+  scoreDisplay.textContent = currentScore + points;
   clearflashRed();
   scoreCon.style.borderColor = 'green';
   scoreCon.style.backgroundColor = 'darkgreen';
@@ -54,7 +59,7 @@ function incrementScore() {
   scoreDisplay.style.fontSize = '35px';
   scoreTitle.style.color = 'yellow';
   scoreTitle.style.marginBottom = '0';
-  setTimeout(()=> {
+  setTimeout(() => {
     scoreCon.style.borderColor = 'black';
     scoreCon.style.backgroundColor = 'white';
     scoreDisplay.style.color = 'black';
@@ -72,15 +77,15 @@ function decreaseScore(event) {
   if (currentScore > 0) {
     scoreDisplay.textContent = currentScore - 5;
     if (scoreCon.style.borderColor !== 'green') {
-      flashRed = setTimeout(()=> {
-      scoreCon.style.borderColor = 'red';
-      scoreDisplay.style.color = 'red';
-      scoreTitle.style.color = 'red';
-      setTimeout(()=> {
-        scoreCon.style.borderColor = 'black';
-        scoreDisplay.style.color = 'black';
-        scoreTitle.style.color = 'black';    
-      }, 500);
+      flashRed = setTimeout(() => {
+        scoreCon.style.borderColor = 'red';
+        scoreDisplay.style.color = 'red';
+        scoreTitle.style.color = 'red';
+        setTimeout(() => {
+          scoreCon.style.borderColor = 'black';
+          scoreDisplay.style.color = 'black';
+          scoreTitle.style.color = 'black';
+        }, 500);
       }, 0);
     }
   }
@@ -92,9 +97,12 @@ function restartScoreboard() {
     scoreDisplay.textContent +
     " points. Thank you for playing!"
   ); //alert showing point total when game ends
-  clearMoleTimeout()
+  clearMoleTimeout();
+  clearMoleExtraTimeout();
+
   scoreDisplay.textContent = "0";
   gameStarted = false;
+  moleExtraCount = 0; //reset mole extra so that it shows up if start game was pressed again  
 }
 function scoreStart() {
   gameStarted = true;
@@ -110,6 +118,8 @@ function goBackBtnPress() {
   backBtn.style.display = "none";
   theGameOverMessage.style.display = "none";
   theGameOverImage.style.display = "none";
+
+  moleExtraCount = 0;
 }
 // clickForPoints.forEach((img) => {img.addEventListener('click', incrementScore);});
 // Commented out the above code since images will be created later on
@@ -131,15 +141,30 @@ let isGameStarted = false;
 
 function endGame() {
   clearInterval(timer);
-  timerSpan.innerHTML = 60; //changed to 60 instead of zero, so that it would display 60 before start game.
-  isGameStarted = false; // game ended, ready for new start
-  // For making mole disappear if it is there when game ends
-  if (GRID_ARRAY[pick].firstChild) {
+  timerSpan.innerHTML = 60;
+  isGameStarted = false;
+
+  // Remove any remaining regular mole
+  if (GRID_ARRAY[pick]?.firstChild) {
     while (GRID_ARRAY[pick].firstChild) {
       GRID_ARRAY[pick].removeChild(GRID_ARRAY[pick].firstChild);
     }
   }
-  pick = 10; // Reset the pick to a number outside the range of the Array
+
+  // Remove any remaining extra mole
+  if (GRID_ARRAY[pickExtra]?.firstChild) {
+    while (GRID_ARRAY[pickExtra].firstChild) {
+      GRID_ARRAY[pickExtra].removeChild(GRID_ARRAY[pickExtra].firstChild);
+    }
+  }
+
+  // Reset picks to null or undefined
+  pick = null;
+  pickExtra = null;
+
+  // Clear the timeouts for both regular mole and extra mole
+  clearMoleTimeout();
+  clearMoleExtraTimeout();
 }
 function startGame() {
   if (isGameStarted) {
@@ -158,6 +183,7 @@ function startGame() {
   //if we call updateTimer here again it will cause timer to decrease by 1 second immedieatly upon starting giving player 59 seconds because timelLeft - 1.
   //updateTimer();
   moleUp(); // Begins the cycle of the moles appearing
+  moleExtraUp()
 }
 function updateTimer() {
   if (timeLeft > 0) {
@@ -166,6 +192,7 @@ function updateTimer() {
   } else {
     endGame();
     clearMoleTimeout();
+    clearMoleExtraTimeout();
     gameContainer.style.display = "none";
     btnsContainer.style.display = "none";
     instructions.style.display = "none";
@@ -181,6 +208,7 @@ function updateTimer() {
     //timerSpan.innerHTML = 60;
   }
 }
+
 // New functions here
 //mole appear
 function moleUp() {
@@ -198,13 +226,13 @@ function moleUp() {
   // Next two lines allow for the mole to disappear and add points when clicked
   mole.addEventListener("click", () => {
     moleDown(mole);
+    incrementScore(10);
   });
-  mole.addEventListener("click", incrementScore);
   mole.addEventListener("click", clearflashRed);
   // Starts timer for mole to disappear after 2 seconds
   setTimeout(() => {
     moleDown();
-  }, 499);
+  }, 700);
 }
 //mole dissapear
 // Removes mole which was created
@@ -228,7 +256,7 @@ function moleDown() {
   }
 }
 // New mole appears after 2 seconds
-let moleTimeout; // declare a global variable to store the timeout ID
+
 
 function newMole() {
   // Clear any existing timeout before setting a new one
@@ -244,4 +272,62 @@ function clearMoleTimeout() {
 }
 function clearflashRed() {
   clearTimeout(flashRed);
+}
+
+// EXTRA POINTS MOLE///////////////////////////////////////
+
+function clearMoleExtraTimeout() {
+  clearTimeout(moleExtraTimeout);
+}
+
+function moleExtraUp() {
+  clearMoleExtraTimeout();
+  if (moleExtraCount < 2) {
+    moleExtraTimeout = setTimeout(() => {
+      moleExtra = document.createElement("img");
+      do {
+        pickExtra = Math.floor(Math.random() * GRID_ARRAY.length);
+      } while (pickExtra === pick); // Repeat until pickExtra is different from pick so they dont appear on the same button.
+
+      GRID_ARRAY[pickExtra].appendChild(moleExtra);
+
+      moleExtra.src = "https://media0.giphy.com/media/lgPVnjdVYshd8MfhYR/giphy.gif?cid=ecf05e47dqrj2z0dhck74b7jgex6y2dxv9z31tgr283077sj&ep=v1_gifs_related&rid=giphy.gif&ct=s";
+      moleExtra.style.height = "100%";
+      moleExtra.style.width = "100%";
+      moleExtra.style.objectFit = "cover";
+
+      moleExtra.addEventListener("click", () => {
+        moleExtraDown();
+        incrementScore(35);
+      });
+
+      moleExtra.addEventListener("click", clearflashRed);
+
+      moleExtraTimeout = setTimeout(() => {
+        moleExtraDown();
+      }, 1000);
+    }, Math.random() * 30000); // Random delay between 0 and 10000 milliseconds (10 seconds) to make moleExtra appear at seperate times rather than one after the other.
+    moleExtraCount++;  // Increment extra mole appearance count. decleared moleExtraCount and init to 0 to keep track of mole so that mole extra appears twice and stops
+  }
+}
+
+
+function moleExtraDown() {
+  if (GRID_ARRAY[pickExtra]) {
+    while (GRID_ARRAY[pickExtra].firstChild) {
+      GRID_ARRAY[pickExtra].removeChild(GRID_ARRAY[pickExtra].firstChild);
+    }
+  }
+
+  if (isGameStarted === true) {
+    newMoleExtra();
+  }
+}
+
+function newMoleExtra() {
+  clearMoleExtraTimeout();
+
+  moleExtraTimeout = setTimeout(() => {
+    moleExtraUp();
+  }, 2000);
 }
