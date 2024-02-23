@@ -108,8 +108,7 @@ function restartScoreboard() {
   clearMoleExtraTimeout();
 
   scoreDisplay.textContent = "0";
-  gameStarted = false;
-  moleExtraCount = 0; //reset mole extra so that it shows up if start game was pressed again  
+  gameStarted = false;  
 }
 function scoreStart() {
   gameStarted = true;
@@ -125,8 +124,6 @@ function goBackBtnPress() {
   backBtn.style.display = "none";
   theGameOverMessage.style.display = "none";
   theGameOverImage.style.display = "none";
-
-  moleExtraCount = 0;
 }
 // clickForPoints.forEach((img) => {img.addEventListener('click', incrementScore);});
 // Commented out the above code since images will be created later on
@@ -177,6 +174,7 @@ function endGame() {
   timerCon.style.borderColor = "black";
   timerDisplay.style.fontSize = '25px';
   timerTitle.style.marginBottom = '8px';
+  moleExtraCount = 0; //reset mole extra so that it shows up if start game was pressed again
 }
 function startGame() {
   if (isGameStarted) {
@@ -236,7 +234,7 @@ function moleUp() {
   GRID_ARRAY[pick].appendChild(mole); // Appends the newly created image element (mole) as a child of a randomly chosen (using the pick variable) grid-button
   console.log(pick); // For debugging purposes, can be removed
   // This code block assigns CSS values to the new image element
-  //https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b
+  // Original Mole Image https://img.freepik.com/free-vector/little-mole-white-background_1308-93097.jpg?w=1060&t=st=1707271894~exp=1707272494~hmac=f945d34661b36cefc82f58d69c9fd50c5243faa3cd7c3264cb4ea93765d3c16b
   mole.src = "https://media.tenor.com/7jL7Lot_3HAAAAAi/the-little-mole.gif";
   mole.style.height = "100%";
   mole.style.width = "100%";
