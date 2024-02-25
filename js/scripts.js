@@ -55,19 +55,19 @@ function incrementScore(points) {
   const currentScore = parseInt(scoreDisplay.textContent, 10);
   scoreDisplay.textContent = currentScore + points;
   clearflashRed();
-  scoreCon.style.borderColor = 'green';
-  scoreCon.style.backgroundColor = 'darkgreen';
-  scoreDisplay.style.color = 'yellow';
-  scoreDisplay.style.fontSize = '35px';
-  scoreTitle.style.color = 'yellow';
-  scoreTitle.style.marginBottom = '0';
+  scoreCon.style.borderColor = "green";
+  scoreCon.style.backgroundColor = "darkgreen";
+  scoreDisplay.style.color = "yellow";
+  scoreDisplay.style.fontSize = "35px";
+  scoreTitle.style.color = "yellow";
+  scoreTitle.style.marginBottom = "0";
   setTimeout(() => {
-    scoreCon.style.borderColor = 'black';
-    scoreCon.style.backgroundColor = 'white';
-    scoreDisplay.style.color = 'black';
-    scoreDisplay.style.fontSize = '25px';
-    scoreTitle.style.color = 'black';
-    scoreTitle.style.marginBottom = '8px';
+    scoreCon.style.borderColor = "black";
+    scoreCon.style.backgroundColor = "white";
+    scoreDisplay.style.color = "black";
+    scoreDisplay.style.fontSize = "25px";
+    scoreTitle.style.color = "black";
+    scoreTitle.style.marginBottom = "8px";
   }, 500);
 }
 let flashRed;
@@ -78,19 +78,19 @@ function decreaseScore(event) {
   const currentScore = parseInt(scoreDisplay.textContent, 10);
   if (currentScore > 0) {
     scoreDisplay.textContent = currentScore - 5;
-    if (scoreCon.style.borderColor !== 'green') {
-      flashRed = setTimeout(()=> {
-        scoreCon.style.borderColor = 'red';
-        scoreDisplay.style.color = 'red';
-        scoreDisplay.style.fontSize = '35px';
-        scoreTitle.style.color = 'red';
-        scoreTitle.style.marginBottom = '0';
-        setTimeout(()=> {
-            scoreCon.style.borderColor = 'black';
-            scoreDisplay.style.color = 'black';
-            scoreDisplay.style.fontSize = '25px';
-            scoreTitle.style.color = 'black';
-            scoreTitle.style.marginBottom = '8px';
+    if (scoreCon.style.borderColor !== "green") {
+      flashRed = setTimeout(() => {
+        scoreCon.style.borderColor = "red";
+        scoreDisplay.style.color = "red";
+        scoreDisplay.style.fontSize = "35px";
+        scoreTitle.style.color = "red";
+        scoreTitle.style.marginBottom = "0";
+        setTimeout(() => {
+          scoreCon.style.borderColor = "black";
+          scoreDisplay.style.color = "black";
+          scoreDisplay.style.fontSize = "25px";
+          scoreTitle.style.color = "black";
+          scoreTitle.style.marginBottom = "8px";
         }, 500);
       }, 0);
     }
@@ -101,14 +101,14 @@ function decreaseScore(event) {
 function restartScoreboard() {
   alert(
     "Your total score is " +
-    scoreDisplay.textContent +
-    " points. Thank you for playing!"
+      scoreDisplay.textContent +
+      " points. Thank you for playing!"
   ); //alert showing point total when game ends
   clearMoleTimeout();
   clearMoleExtraTimeout();
 
   scoreDisplay.textContent = "0";
-  gameStarted = false;  
+  gameStarted = false;
 }
 function scoreStart() {
   gameStarted = true;
@@ -172,8 +172,8 @@ function endGame() {
   pick = 10; // Reset the pick to a number outside the range of the Array
   timerCon.style.color = "black";
   timerCon.style.borderColor = "black";
-  timerDisplay.style.fontSize = '25px';
-  timerTitle.style.marginBottom = '8px';
+  timerDisplay.style.fontSize = "25px";
+  timerTitle.style.marginBottom = "8px";
   moleExtraCount = 0; //reset mole extra so that it shows up if start game was pressed again
 }
 function startGame() {
@@ -193,7 +193,7 @@ function startGame() {
   //if we call updateTimer here again it will cause timer to decrease by 1 second immedieatly upon starting giving player 59 seconds because timelLeft - 1.
   //updateTimer();
   moleUp(); // Begins the cycle of the moles appearing
-  moleExtraUp()
+  moleExtraUp();
 }
 function updateTimer() {
   if (timeLeft > 0) {
@@ -220,8 +220,8 @@ function updateTimer() {
   if (timeLeft < 11 && timeLeft > 0) {
     timerCon.style.color = "red";
     timerCon.style.borderColor = "red";
-    timerDisplay.style.fontSize = '35px';
-    timerTitle.style.marginBottom = '0';
+    timerDisplay.style.fontSize = "35px";
+    timerTitle.style.marginBottom = "0";
   }
 }
 
@@ -273,7 +273,6 @@ function moleDown() {
 }
 // New mole appears after 2 seconds
 
-
 function newMole() {
   // Clear any existing timeout before setting a new one
   clearTimeout(moleTimeout);
@@ -307,7 +306,8 @@ function moleExtraUp() {
 
       GRID_ARRAY[pickExtra].appendChild(moleExtra);
 
-      moleExtra.src = "https://media0.giphy.com/media/lgPVnjdVYshd8MfhYR/giphy.gif?cid=ecf05e47dqrj2z0dhck74b7jgex6y2dxv9z31tgr283077sj&ep=v1_gifs_related&rid=giphy.gif&ct=s";
+      moleExtra.src =
+        "https://media0.giphy.com/media/lgPVnjdVYshd8MfhYR/giphy.gif?cid=ecf05e47dqrj2z0dhck74b7jgex6y2dxv9z31tgr283077sj&ep=v1_gifs_related&rid=giphy.gif&ct=s";
       moleExtra.style.height = "100%";
       moleExtra.style.width = "100%";
       moleExtra.style.objectFit = "cover";
@@ -323,10 +323,9 @@ function moleExtraUp() {
         moleExtraDown();
       }, 1000);
     }, Math.random() * 30000); // Random delay between 0 and 10000 milliseconds (10 seconds) to make moleExtra appear at seperate times rather than one after the other.
-    moleExtraCount++;  // Increment extra mole appearance count. decleared moleExtraCount and init to 0 to keep track of mole so that mole extra appears twice and stops
+    moleExtraCount++; // Increment extra mole appearance count. decleared moleExtraCount and init to 0 to keep track of mole so that mole extra appears twice and stops
   }
 }
-
 
 function moleExtraDown() {
   if (GRID_ARRAY[pickExtra]) {
@@ -347,4 +346,3 @@ function newMoleExtra() {
     moleExtraUp();
   }, 2000);
 }
-  

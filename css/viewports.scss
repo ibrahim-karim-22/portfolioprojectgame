@@ -1,0 +1,38 @@
+@media only screen and (max-width: 600px) {
+  /* Adjust styles for screens up to 600px wide */
+  .container {
+    margin-top: 15px;
+  }
+
+  .grid-button {
+    width: 90px;
+    height: 90px;
+  }
+
+  .timer {
+    font-size: 20px;
+  }
+
+  #timer {
+    font-size: 15px;
+  }
+
+  .score {
+    font-size: 20px;
+  }
+
+  #score {
+    font-size: 15px;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  /* Adjust styles for screens between 601px and 1024px wide */
+  .container {
+    margin-top: 20px;
+  }
+
+  #instructions-container {
+    max-width: 600px;
+  }
+}
