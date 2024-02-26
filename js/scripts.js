@@ -145,17 +145,18 @@ let isGameStarted = false;
 
 function endGame() {
   clearInterval(timer);
+  clearBombUpTimeout();
   timerSpan.innerHTML = 60;
   isGameStarted = false;
 
   // Remove any remaining regular mole
-  if (GRID_ARRAY[pick]?.firstChild) {
+  if (GRID_ARRAY[pick].firstChild) {
     while (GRID_ARRAY[pick].firstChild) {
       GRID_ARRAY[pick].removeChild(GRID_ARRAY[pick].firstChild);
     }
   }
   // Remove any remaining extra mole
-  if (GRID_ARRAY[pickExtra]?.firstChild) {
+  if (GRID_ARRAY[pickExtra].firstChild) {
     while (GRID_ARRAY[pickExtra].firstChild) {
       GRID_ARRAY[pickExtra].removeChild(GRID_ARRAY[pickExtra].firstChild);
     }
@@ -194,28 +195,14 @@ function startGame() {
   //updateTimer();
   moleUp(); // Begins the cycle of the moles appearing
   moleExtraUp();
+  bombUp();
 }
 function updateTimer() {
   if (timeLeft > 0) {
     timeLeft--; // changed to decrement the value for cleaner code
     timerSpan.innerHTML = timeLeft;
   } else {
-    endGame();
-    clearMoleTimeout();
-    clearMoleExtraTimeout();
-    gameContainer.style.display = "none";
-    btnsContainer.style.display = "none";
-    instructions.style.display = "none";
-    theGameTitle.style.display = "none";
-    timerCon.style.display = "none";
-    scoreCon.style.display = "none";
-    backBtn.style.display = "block";
-    theGameOverImage.style.display = "block";
-    theGameOverMessage.style.display = "block";
-    theGameOverMessage.innerHTML =
-      "You've earned " + scoreDisplay.textContent + " points";
-    //no need to reset the timerSpan here as endGame already sets it to 60. this was why it was glitching and not stopping with end game when start is pressed twice i think.
-    //timerSpan.innerHTML = 60;
+    gameOver();
   }
   if (timeLeft < 11 && timeLeft > 0) {
     timerCon.style.color = "red";
@@ -224,7 +211,24 @@ function updateTimer() {
     timerTitle.style.marginBottom = "0";
   }
 }
-
+function gameOver() {
+  endGame();
+  clearMoleTimeout();
+  clearMoleExtraTimeout();
+  gameContainer.style.display = "none";
+  btnsContainer.style.display = "none";
+  instructions.style.display = "none";
+  theGameTitle.style.display = "none";
+  timerCon.style.display = "none";
+  scoreCon.style.display = "none";
+  backBtn.style.display = "block";
+  theGameOverImage.style.display = "block";
+  theGameOverMessage.style.display = "block";
+  theGameOverMessage.innerHTML =
+    "You've earned " + scoreDisplay.textContent + " points";
+  //no need to reset the timerSpan here as endGame already sets it to 60. this was why it was glitching and not stopping with end game when start is pressed twice i think.
+  //timerSpan.innerHTML = 60;
+}
 // New functions here
 //mole appear
 function moleUp() {
@@ -322,7 +326,7 @@ function moleExtraUp() {
       moleExtraTimeout = setTimeout(() => {
         moleExtraDown();
       }, 1000);
-    }, Math.random() * 30000); // Random delay between 0 and 10000 milliseconds (10 seconds) to make moleExtra appear at seperate times rather than one after the other.
+    }, Math.random() * 30000); // Random delay between 0 and 30000 milliseconds (30 seconds) to make moleExtra appear at seperate times rather than one after the other.
     moleExtraCount++; // Increment extra mole appearance count. decleared moleExtraCount and init to 0 to keep track of mole so that mole extra appears twice and stops
   }
 }
@@ -345,4 +349,54 @@ function newMoleExtra() {
   moleExtraTimeout = setTimeout(() => {
     moleExtraUp();
   }, 2000);
+}
+
+// BOMB MOLE///////////////////////////////////////
+
+let bomb;
+let bombUpTimeout;
+let bombDownTimeout;
+let pickBomb;
+let delay;
+
+function bombUp() {
+  delay = ((Math.random() * 40) + 10) * 1000;
+
+  bombUpTimeout = setTimeout(()=> {
+    
+    bomb = document.createElement("img");
+  
+    bomb.src = "https://media.tenor.com/QOJvSboMRAgAAAAj/bobm-bomb.gif";
+    bomb.style.objectFit = "cover";
+    bomb.style.height = "100%";
+    bomb.style.width = "100%";
+    
+    do {
+      pickBomb = Math.floor(Math.random() * GRID_ARRAY.length)
+    } while (pickBomb === pick || pickBomb === pickExtra);
+
+    GRID_ARRAY[pickBomb].appendChild(bomb);
+
+    bombDownTimeout = setTimeout(()=>{
+      bombDown();
+    }, 1000);
+    
+    bomb.addEventListener('click', ()=>{
+      clearBombDownTimeout();
+      bombDown();
+      gameOver();
+    });
+
+  }, delay);
+}
+function bombDown() {
+  while (GRID_ARRAY[pickBomb].firstChild) {
+    GRID_ARRAY[pickBomb].removeChild(bomb);
+  }
+}
+function clearBombDownTimeout() {
+  clearTimeout(bombDownTimeout);
+}
+function clearBombUpTimeout() {
+  clearTimeout(bombUpTimeout);
 }
