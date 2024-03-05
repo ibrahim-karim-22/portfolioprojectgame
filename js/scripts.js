@@ -34,6 +34,15 @@ const timerTitle = document.querySelector(".timer");
 const timerDisplay = document.querySelector("#timer");
 const theGameOverImage = document.querySelector(".gameOverImage");
 const theGameOverMessage = document.querySelector("#gameOverMessage");
+const startedSound = document.querySelector('#startedSound');
+const countDownSound = document.querySelector('#countDownSound');
+const moleExtraSound = document.querySelector('#moleExtraSound')
+const moleClickSound = document.querySelector('#moleClickSound');
+const gameOverScreenSound = document.querySelector('#gameOverScreenSound');
+const gameOverBtnSound = document.querySelector('#gameOverBtnSound');
+const teaseSound = document.querySelector('#teaseSound');
+const emptyBoxSound = document.querySelector('#emptyBoxSound');
+const bombSound = document.querySelector('#bombSound');
 
 let pick; // Declared global variable for random number generator
 let pickExtra;
@@ -43,10 +52,82 @@ let moleTimeout;
 let moleExtraTimeout;
 let moleExtraCount = 0;
 let gameStarted = false;
+let countDownInterval;
+let teaseSoundCounter = 0;
 
 backBtn.style.display = "none";
 theGameOverImage.style.display = "none";
 theGameOverMessage.style.display = "none";
+
+startedSound.style.display = "none";
+startedSound.volume = 0.02;
+countDownSound.style.display = "none";
+countDownSound.volume = 0.02;
+moleExtraSound.style.display = "none";
+moleExtraSound.volume = 0.02;
+moleClickSound.style.display = "none";
+moleClickSound.volume = 0.02;
+gameOverScreenSound.style.display = "none";
+gameOverScreenSound.volume = 0.02;
+gameOverBtnSound.style.display = "none";
+gameOverBtnSound.volume = 0.005;
+teaseSound.style.display = "none";
+teaseSound.volume = 0.02;
+emptyBoxSound.style.display = "none";
+emptyBoxSound.volume = 0.005;
+bombSound.style.display = "none";
+bombSound.volume = ".05"
+
+/////////SOUNDS/////////////////////////////////////////////////////
+function startGameMusic() {
+  startedSound.play();
+}
+function stopStartGameMusic() {
+  startedSound.currentTime = 0;
+  startedSound.pause();
+}
+
+function playCountDownSound() {
+  // countDownSound.currentTime = 0;
+  countDownSound.play();
+}
+function startCountDownSound() {
+  countDownInterval = setInterval(playCountDownSound, 1000); // Play the sound every second
+}
+function stopCountDownSound() {
+  clearInterval(countDownInterval);
+  countDownSound.pause()
+  countDownSound.currentTime = 0;
+}
+
+function startMoleExtraSound() {
+  moleExtraSound.play();
+}
+
+function startMoleClickSound() {
+  moleClickSound.play();
+}
+
+function startGameOverScreenSound() {
+  gameOverScreenSound.play();
+}
+
+function startGameOverBtnSound() {
+  gameOverBtnSound.play();
+}
+
+function startTeaseSound() {
+  teaseSound.play();
+}
+
+function startEmptyBoxSound() {
+  emptyBoxSound.play();
+}
+
+function startBombSound() {
+  bombSound.play();
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 function incrementScore(points) {
   if (!gameStarted) {
@@ -76,8 +157,8 @@ function decreaseScore(event) {
     return;
   }
   const currentScore = parseInt(scoreDisplay.textContent, 10);
+
   if (currentScore > 0) {
-    scoreDisplay.textContent = currentScore - 5;
     if (scoreCon.style.borderColor !== "green") {
       flashRed = setTimeout(() => {
         scoreCon.style.borderColor = "red";
@@ -94,15 +175,26 @@ function decreaseScore(event) {
         }, 500);
       }, 0);
     }
+    scoreDisplay.textContent = currentScore - 5;
+    const clickedElement = event.target;
+    const isMoleOrEmptyBox = clickedElement.tagName.toLowerCase() !== 'img';
+
+    if (isMoleOrEmptyBox) {
+      scoreDisplay.textContent = currentScore - 5;
+      if ((currentScore - 5) % 5 === 0) {
+        startEmptyBoxSound();
+      }
+    }
   }
   event.stopPropagation(); //this built in function stops the click form propagating further.
 }
 
 function restartScoreboard() {
+  startGameOverBtnSound();
   alert(
     "Your total score is " +
-      scoreDisplay.textContent +
-      " points. Thank you for playing!"
+    scoreDisplay.textContent +
+    " points. Thank you for playing!"
   ); //alert showing point total when game ends
   clearMoleTimeout();
   clearMoleExtraTimeout();
@@ -145,18 +237,19 @@ let isGameStarted = false;
 
 function endGame() {
   clearInterval(timer);
+  clearTimeout(startTeaseSound);
   clearBombUpTimeout();
   timerSpan.innerHTML = 60;
   isGameStarted = false;
 
   // Remove any remaining regular mole
-  if (GRID_ARRAY[pick].firstChild) {
+  if (GRID_ARRAY[pick] && GRID_ARRAY[pick].firstChild) {
     while (GRID_ARRAY[pick].firstChild) {
       GRID_ARRAY[pick].removeChild(GRID_ARRAY[pick].firstChild);
     }
   }
   // Remove any remaining extra mole
-  if (GRID_ARRAY[pickExtra].firstChild) {
+  if (GRID_ARRAY[pickExtra] && GRID_ARRAY[pickExtra].firstChild) {
     while (GRID_ARRAY[pickExtra].firstChild) {
       GRID_ARRAY[pickExtra].removeChild(GRID_ARRAY[pickExtra].firstChild);
     }
@@ -169,6 +262,8 @@ function endGame() {
   // Clear the timeouts for both regular mole and extra mole
   clearMoleTimeout();
   clearMoleExtraTimeout();
+  stopStartGameMusic()
+  stopCountDownSound()
 
   pick = 10; // Reset the pick to a number outside the range of the Array
   timerCon.style.color = "black";
@@ -177,11 +272,11 @@ function endGame() {
   timerTitle.style.marginBottom = "8px";
   moleExtraCount = 0; //reset mole extra so that it shows up if start game was pressed again
 }
+
 function startGame() {
   if (isGameStarted) {
     return; //if the game has already started, dont reset or start again unless end game is pressed.
   }
-  console.log("inside the start function");
   //clears any existing timer to avoid multiple intervals running.
   clearInterval(timer);
   //reset time left for a new game
@@ -196,6 +291,8 @@ function startGame() {
   moleUp(); // Begins the cycle of the moles appearing
   moleExtraUp();
   bombUp();
+  startGameMusic()
+
 }
 function updateTimer() {
   if (timeLeft > 0) {
@@ -209,12 +306,18 @@ function updateTimer() {
     timerCon.style.borderColor = "red";
     timerDisplay.style.fontSize = "35px";
     timerTitle.style.marginBottom = "0";
+  } else if (timeLeft < 12 && timeLeft > 0) {
+    startCountDownSound()
+  } else if (timeLeft === 0) {
+    stopCountDownSound()
   }
 }
 function gameOver() {
   endGame();
   clearMoleTimeout();
   clearMoleExtraTimeout();
+  startGameOverScreenSound();
+  clearTimeout(startTeaseSound);
   gameContainer.style.display = "none";
   btnsContainer.style.display = "none";
   instructions.style.display = "none";
@@ -232,6 +335,7 @@ function gameOver() {
 // New functions here
 //mole appear
 function moleUp() {
+
   clearMoleTimeout();
   mole = document.createElement("img"); // Creates new image element inside the DOM
   pick = Math.floor(Math.random() * GRID_ARRAY.length); // Assigns pick variable to a random number to be indexed inside the Array
@@ -243,10 +347,17 @@ function moleUp() {
   mole.style.height = "100%";
   mole.style.width = "100%";
   mole.style.objectFit = "cover";
+  if (teaseSoundCounter < 3) {
+    setTimeout(startTeaseSound, Math.random() * 300);
+    teaseSoundCounter++;
+  }
+
+
   // Next two lines allow for the mole to disappear and add points when clicked
   mole.addEventListener("click", () => {
     moleDown(mole);
     incrementScore(10);
+    startMoleClickSound()
   });
   mole.addEventListener("click", clearflashRed);
   // Starts timer for mole to disappear after 2 seconds
@@ -319,6 +430,7 @@ function moleExtraUp() {
       moleExtra.addEventListener("click", () => {
         moleExtraDown();
         incrementScore(35);
+        startMoleExtraSound()
       });
 
       moleExtra.addEventListener("click", clearflashRed);
@@ -362,27 +474,28 @@ let delay;
 function bombUp() {
   delay = ((Math.random() * 40) + 10) * 1000;
 
-  bombUpTimeout = setTimeout(()=> {
-    
+  bombUpTimeout = setTimeout(() => {
+
     bomb = document.createElement("img");
-  
+
     bomb.src = "https://media.tenor.com/QOJvSboMRAgAAAAj/bobm-bomb.gif";
     bomb.style.objectFit = "cover";
     bomb.style.height = "100%";
     bomb.style.width = "100%";
-    
+
     do {
       pickBomb = Math.floor(Math.random() * GRID_ARRAY.length)
     } while (pickBomb === pick || pickBomb === pickExtra);
 
     GRID_ARRAY[pickBomb].appendChild(bomb);
 
-    bombDownTimeout = setTimeout(()=>{
+    bombDownTimeout = setTimeout(() => {
       bombDown();
     }, 1000);
-    
-    bomb.addEventListener('click', ()=>{
+
+    bomb.addEventListener('click', () => {
       clearBombDownTimeout();
+      startBombSound();
       bombDown();
       gameOver();
     });
@@ -400,3 +513,5 @@ function clearBombDownTimeout() {
 function clearBombUpTimeout() {
   clearTimeout(bombUpTimeout);
 }
+
+
